@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div id="events" class="table-container">
+    <h2 class="heading">Events</h2>
+    <table id="events_table">
+        <thead>
+        <tr>
+            <td class="headers">ID</td>
+            <td class="headers">Event Name</td>
+            <td class="headers">Event Description</td>
+            <td class="headers">SIG</td>
+            <td class="headers">isDone</td>
+            <td class="headers">isTech</td>
+            <td class="headers">Date</td>
+            <td class="headers">Edit</td>
+            <td class="headers">Remove</td>
+        </tr>
+        </thead>
+
+        <% for(let i=0; i<eventCount; i++){%>
+            <tr>
+                <td><%= events[i]['id']%></td>
+                <td><%= events[i]['e-name']%></td>
+                <td><%= events[i]['e-desc']%></td>
+                <td><%= events[i]['sig']%></td>
+                <td><%= events[i]['isDone']%></td>
+                <td><%= events[i]['isTech']%></td>
+                <td><%= events[i]['date']%></td>
+                <td> <a href='/event/editevent?eventid=<%= events[i]['id']%>'  onclick='return checkedit()' class='btn btn-success px-4'>Edit</a></td>
+                <td><a href='/event/removeevent?eventid=<%= events[i]['id']%>' onclick='return checkdelete()' class='btn btn-danger'>Remove</a></td></tr>
+
+            </tr>
+        <%}%>
+    </table>
+    <a href='/event/addevent' class='btn btn-success px-4' id="event-btn">Add Event</a>
+</div>
+<div id="sig" class="table-container">
+    <h2 class="heading">Special Interest Groups</h2>
+    <table id="sig_table">
+        <thead>
+        <tr>
+            <td class="headers">S. No.</td>
+            <td class="headers">SIG Name</td>
+            <td class="headers">SIG Head</td>
+            <td class="headers">SIG Desc</td>
+            <td class="headers">SIG Alias</td>
+            <td class="headers">Edit</td>
+            <td class="headers">Remove</td>
+        </tr>
+        </thead>
+
+        <% for(let i=0; i<sigCount; i++){%>
+            <tr>
+                <td><%= sig[i]['id']%></td>
+                <td><%= sig[i]['name']%></td>
+                <td><%= sig[i]['head']%></td>
+                <td><%= sig[i]['desc']%></td>
+                <td><%= sig[i]['alias']%></td>
+                <td> <a href='/sig/editsig?sigid=<%= sig[i]['id']%>'  onclick='return checkedit()' class='btn btn-success px-4'>Edit</a></td>
+                <td><a href='/sig/removesig?sigid=<%= sig[i]['id']%>' onclick='return checkdelete()' class='btn btn-danger'>Remove</a></td>
+            </tr>
+        <%}%>
+    </table>
+    <a href='/sig/addsig' class='btn btn-success px-4' id="event-btn">Add SIG</a>
+</div>
+
+<div id="members" class="table-container">
+    <h2 class="heading">Members</h2>
+    <table id="mem_table">
+        <thead>
+        <tr>
+            <td class="headers">S. No.</td>
+            <td class="headers">Name</td>
+            <td class="headers">Designation</td>
+            <td class="headers">SIG</td>
+            <td class="headers">Edit</td>
+            <td class="headers">Remove</td>
+        </tr>
+        </thead>
+
+        <% for(let i=0; i<memCount; i++){%>
+            <tr>
+                <td><%= mem[i]['id']%></td>
+                <td><%= mem[i]['name']%></td>
+                <td><%= mem[i]['desig']%></td>
+                <td><%= mem[i]['sig']%></td>
+                <td> <a href='/member/editmember?memid=<%= mem[i]['id']%>'  onclick='return checkedit()' class='btn btn-success px-4'>Edit</a></td>
+                <td><a href='/member/removemember?memid=<%= mem[i]['id']%>' onclick='return checkdelete()' class='btn btn-danger'>Remove</a></td>
+            </tr>
+        <%}%>
+    </table>
+    <a href='/member/addmember' class='btn btn-success px-4' id="event-btn">Add Member</a>
+</div>
+
+
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<!--DataTable-->
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+<!--fontawesome-->
+<script src="https://kit.fontawesome.com/8de4607864.js" crossorigin="anonymous"></script>
+
+<!--bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {  //Initialising DataTable with table
+        $('#events_table').DataTable();
+    });
+
+    $(document).ready(function() {  //Initialising DataTable with table
+        $('#sig_table').DataTable();
+    });
+
+    $(document).ready(function() {  //Initialising DataTable with table
+        $('#mem_table').DataTable();
+    });
+
+    function checkdelete() {
+        return confirm('Record will be deleted');
+    }
+
+    function checkedit() {
+        return confirm('Record will be edited');
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+.table-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 3rem;
+    padding: 2rem;
+}
+
+.heading{
+    text-align: center;
+}
+
+#event-btn{
+    margin: auto;
+}

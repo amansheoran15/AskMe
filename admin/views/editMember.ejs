@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Member</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../css/editMember.css" rel="stylesheet">
+</head>
+<body>
+<div id="form-container">
+    <div id="title">Edit Member</div>
+    <form action="/member/editmember" method="post">
+        <div class="mb-3">
+            <input type="text" class="form-control" id="formGroupExampleInput0" name="id" value="<%= row[0]['id']%>" hidden>
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">SIG Name</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" name="name" placeholder="Name of Member" value="<%= row[0]['name']%>">
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label">Designation</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" name="desig" placeholder="Designation" value="<%= row[0]['desig']%>">
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput3" class="form-label">SIG</label>
+            <input type="text" class="form-control" id="formGroupExampleInput3" name="sig" placeholder="Associated with which SIG" value="<%= row[0]['sig']%>">
+        </div>
+        <div class="mb-3">
+            <button class='btn btn-success px-4' onclick="return checkedit()">Update</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function checkedit(){
+        return confirm("Information will be updated. Are you sure you want to proceed?")
+    }
+</script>
+</body>
+</html>
