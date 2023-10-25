@@ -4,6 +4,7 @@ import discord
 import json
 from supabase import create_client, Client
 
+#Fetch environment variables and connect to db
 url: str = os.environ["SUPABASE_URL"]
 key: str = os.environ["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
@@ -11,18 +12,20 @@ supabase: Client = create_client(url, key)
 intents = discord.Intents.default()
 intents.message_content = True
 
+#Initialize discord client
 client = discord.Client(intents=intents)
 
-
+#When code has connected to bot and the bot is online
 @client.event
 async def on_ready():
   print('We have logged in as {0.user}'.format(client))
 
-
+#Function that handles message recieved and response sent
 @client.event
 async def on_message(message):
   msg = message.content
 
+  #if message is from bot itself
   if message.author == client.user:
     return
 
@@ -47,13 +50,13 @@ async def on_message(message):
 
     response = supabase.table('events').select('*').eq('isDone',
                                                        True).execute()
+
+    #The response recieved is not in the form to be read by python, so using json library to convert it into list of dictionary
     response_str = response.model_dump_json()
     response_data = json.loads(response_str)
-    # print(response_data)
     ans = ""
     counter = 1
     for event in response_data.get('data'):
-      # print (event)
       temp = str(counter) + ". **" + event.get(
           'e-name') + "** \nDate: " + event.get('date') + "\n\n" + event.get(
               'e-desc')
@@ -76,7 +79,6 @@ async def on_message(message):
     ans = ""
     counter = 1
     for event in response_data.get('data'):
-      # print (event)
       temp = str(counter) + ". **" + event.get(
           'e-name') + "** \nDate: " + event.get('date') + "\n\n" + event.get(
               'e-desc')
@@ -92,7 +94,6 @@ async def on_message(message):
                                                        False).execute()
     response_str = response.model_dump_json()
     response_data = json.loads(response_str)
-    # print(response_data)
     ans = ""
     counter = 1
     for event in response_data.get('data'):
@@ -119,7 +120,6 @@ async def on_message(message):
     ans = ""
     counter = 1
     for event in response_data.get('data'):
-      # print (event)
       temp = str(counter) + ". **" + event.get(
           'e-name') + "** \nDate: " + event.get('date') + "\n\n" + event.get(
               'e-desc')
@@ -135,7 +135,6 @@ async def on_message(message):
                                                        False).execute()
     response_str = response.model_dump_json()
     response_data = json.loads(response_str)
-    # print(response_data)
     ans = ""
     counter = 1
     for event in response_data.get('data'):
@@ -160,7 +159,6 @@ async def on_message(message):
     ans = ""
     counter = 1;
     for event in response_data.get('data'):
-      # print (event)
       temp =str(counter) +". **" + event.get(
           'name') + "**\n\n" + event.get(
               'desc')
@@ -186,7 +184,6 @@ async def on_message(message):
   
     ans = ""
     for event in response_data.get('data'):
-      # print (event)
       temp ="**" + event.get(
           'name') + "**\n\n" + event.get(
               'desc')
@@ -204,7 +201,6 @@ async def on_message(message):
     ans = ""
     counter = 1;
     for event in response_data.get('data'):
-      # print (event)
       temp =str(counter) +". **" + event.get(
           'name') + "**\nDesignation : " + event.get(
               'desig')
@@ -226,7 +222,6 @@ async def on_message(message):
     ans = ""
     counter = 1;
     for event in response_data.get('data'):
-      # print (event)
       temp =str(counter) +". **" + event.get(
           'name') + "**\nDesignation : " + event.get(
               'desig')
