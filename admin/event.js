@@ -1,10 +1,10 @@
 const express = require('express')
+
+//Connecting to supabase
 const {createClient} = require('@supabase/supabase-js')
 const supabase = createClient('https://pjshkjaswzdtfuxpqxfr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqc2hramFzd3pkdGZ1eHBxeGZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc1NjEzNjEsImV4cCI6MjAxMzEzNzM2MX0.t_oXV-0P24Z1oFebdvzAdG-ujrN8vfJP1J2tbRlbkpk')
 
 const app = express.Router()
-
-
 
 async function getSpecificEvent(id){
     let { data: event, error } = await supabase
@@ -18,6 +18,7 @@ async function getSpecificEvent(id){
     }
 }
 
+//Render page editEvent.ejs when user clicks the Edit button
 app.get('/editevent',async (req, res) => {
     const event = await getSpecificEvent(req.query.eventid)
     return res.render('editEvent',{
@@ -25,6 +26,7 @@ app.get('/editevent',async (req, res) => {
     })
 })
 
+//Update changes in the event details
 app.post('/editevent',async (req, res)=>{
     const formData = req.body
     const { data, error } = await supabase
@@ -49,6 +51,7 @@ app.post('/editevent',async (req, res)=>{
         "</script>")
 })
 
+//Remove the event
 app.get('/removeevent',async (req,res)=>{
     const id = req.query.eventid
     const { error } = await supabase
@@ -66,10 +69,12 @@ app.get('/removeevent',async (req,res)=>{
 
 })
 
+//Render page addEvent when user clicks on add member button
 app.get('/addevent',async (req,res)=>{
     return res.render('addEvent.ejs')
 })
 
+//Add event to database
 app.post('/addevent',async (req,res)=>{
     const formData = req.body
     const { data, error } = await supabase
@@ -95,4 +100,5 @@ app.post('/addevent',async (req,res)=>{
         "</script>")
 })
 
+//export the app variable
 module.exports = app

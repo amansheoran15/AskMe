@@ -1,4 +1,6 @@
 const express = require('express')
+
+//Connecting to supabase
 const {createClient} = require('@supabase/supabase-js')
 const supabase = createClient('https://pjshkjaswzdtfuxpqxfr.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqc2hramFzd3pkdGZ1eHBxeGZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc1NjEzNjEsImV4cCI6MjAxMzEzNzM2MX0.t_oXV-0P24Z1oFebdvzAdG-ujrN8vfJP1J2tbRlbkpk')
 
@@ -16,6 +18,7 @@ async function getSpecificSIG(id){
     }
 }
 
+//Render page editSig.ejs when user clicks the Edit button
 app.get('/editsig',async (req, res) => {
     const sig = await getSpecificSIG(req.query.sigid)
     res.render('editSig',{
@@ -23,6 +26,7 @@ app.get('/editsig',async (req, res) => {
     })
 })
 
+//Update changes in the sig details
 app.post('/editsig',async (req,res)=>{
     const formData = req.body
     const { data, error } = await supabase
@@ -45,6 +49,7 @@ app.post('/editsig',async (req,res)=>{
         "</script>")
 })
 
+//Remove the sig
 app.get('/removesig',async (req,res)=>{
     const id = req.query.sigid
     const { error } = await supabase
@@ -61,10 +66,12 @@ app.get('/removesig',async (req,res)=>{
         "</script>")
 })
 
+//Render page addSig when user clicks on add member button
 app.get('/addsig',async (req,res)=>{
     return res.render('addSig.ejs')
 })
 
+//Add SIG to database
 app.post('/addsig',async (req,res)=>{
     const formData = req.body
     const { data, error } = await supabase
@@ -88,5 +95,6 @@ app.post('/addsig',async (req,res)=>{
         "</script>")
 })
 
+//export the app variable
 module.exports = app
 
